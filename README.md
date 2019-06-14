@@ -24,9 +24,9 @@
 
 * [Data Structures And Algorithms](Algorithm_Data_Structure.md)
 
-* [Core Java](#core-java)
+* [Core Java](CORE_JAVA.md)
 
-* [Core Android](#core-android)
+* [Core Android](CORE_ANDROID.md)
 
 * [Architecture](#architecture)
 
