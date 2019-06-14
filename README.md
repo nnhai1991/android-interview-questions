@@ -44,7 +44,7 @@
 > The level of questions asked on the topic of Data Structures And Algorithms totally depends on the company for which you are applying.
 
 * Array
-    - An Array consists of a group of elements of the same data type. It is stored contiguously in memory and by using its' index, you can find the underlying data. Arrays can be one dimensional and multi-dimensional. One dimensional array is the simplest data structure, and also most commonly used. It is worth noting that in Java language multi-dimensional arrays are implemented as arrays of arrays. For example, `int[10][5]` is actually one array with its' cells pointing to ten 5-element arrays.    
+    - An Array consists of a group of elements of the same data type. It is stored contiguously in memory and by using its' index, you can find the underlying data. Arrays can be one dimensional and multi-dimensional.    
 
         | Algorithm | Average | Worst Case |
         |:---------:|:-------:|:----------:|
@@ -82,52 +82,19 @@
         | Delete    | Θ(1)    | O(1)       |
 
 * Stack
-   - A Stack is a basic data structure with a "Last-in-First-out" (LIFO) semantics. This means that 
-    the last item that was added to the stack is the first item that comes out of the stack. A 
-    Stack is like a stack of books in that in order to get to the first book that was added in the stack 
-    (the bottom book), all of the books that were added after need to be removed first. Adding to a 
+   - A Stack is a basic data structure with a "Last-in-First-out" (LIFO) semantics. Adding to a 
     Stack is called "Push", removing from a stack is called "Pop", and getting the last item 
-    inserted into the stack without removing it is called "Top". The most common way to implement a
-     stack is by using a LinkedList, but there is also StackArray (implemented with an array) 
+    inserted into the stack without removing it is called "Top". 
+    The most common way to implement a stack is by using a LinkedList, but there is also StackArray (implemented with an array) 
      which does not replace null entries, and there is also a Vector implementation that does 
      replace `null` entries. [Wikipedia](https://en.wikibooks.org/wiki/Data_Structures/Stacks_and_Queues#Performance_Analysis)
-        <table>
-            <tr>
-                <th>Algorithm</th>
-                <th>Average</th>
-                <th>Worst Case</th>
-                <th>Image representation</th>
-            </tr>
-            <tr>
-                <td>Space</td>
-                <td>Θ(n)</td>
-                <td>O(n)</td>
-                <td rowspan="5">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Data_stack.svg/250px-Data_stack.svg.png"/>
-                </td>
-            </tr>
-            <tr>
-                <td>Search</td>
-                <td>Θ(n)</td>
-                <td>O(n)</td>
-            </tr>
-            <tr>
-                <td>Insert (Push)</td>
-                <td>Θ(1)</td>
-                <td>O(1)</td>
-            </tr>
-            <tr>
-                <td>Delete (Pop)</td>
-                <td>Θ(1)</td>
-                <td>O(1)</td>
-            </tr>
-            <tr>
-              <td>Top</td>
-              <td>Θ(1)</td>
-              <td>O(1)</td>
-            </tr>
-        </table>
-
+      | Algorithm | Average | Worst Case |
+        |:---------:|:-------:|:----------:|
+        | Space     | Θ(n)    | O(n)       |
+        | Search    | Θ(n)    | O(n)       |
+        | Insert    | Θ(1)    | O(1)       |
+        | Delete    | Θ(1)    | O(1)       |
+	| Top    | Θ(1)    | O(1)       |       
 * Queue
 
 * PriorityQueue
