@@ -12,6 +12,7 @@
         - Content providers
 
 * What is the structure of an Android Application?
+
 * What is `Context`? How is it used? [MindOrks](https://blog.mindorks.com/understanding-context-in-android-application-330913e32514)
   - As the name suggests, it's the context of current state of the application/object. It lets newly-created objects understand what has been going on. Typically you call it to get information regarding another part of your program (activity and package/application).
 
@@ -26,7 +27,6 @@
 * What is `Activity`? [MindOrks](https://blog.mindorks.com/android-activity-lifecycle)
   - An activity is the entry point for interacting with the user. It represents a single screen with a user interface
   -  An activity facilitates the following key interactions between system and app:
-
     - Keeping track of what the user currently cares about (what is on screen) to ensure that the system keeps running the process that is hosting the activity.
     - Knowing that previously used processes contain things the user may return to (stopped activities), and thus more highly prioritize keeping those processes around.
     - Helping the app handle having its process killed so the user can return to activities with their previous state restored.
@@ -35,7 +35,12 @@
 * Explain `Activity` and `Fragment` lifecycle. (Complete diagram [GitHub](https://github.com/xxv/android-lifecycle), simplified diagram for [Activity](https://developer.android.com/guide/components/activities/activity-lifecycle.html#alc), [Fragment](https://developer.android.com/guide/components/fragments.html#Lifecycle)), [Activity lifecycle](https://blog.mindorks.com/android-activity-lifecycle) and [Fragments lifecycle](https://blog.mindorks.com/android-fragments-and-its-lifecycle)
 
 * What are "launch modes"? [MindOrks](https://blog.mindorks.com/android-activity-launchmode-explained-cbc6cf996802)
-
+  - Launch modes allow you to define how a new instance of an activity is associated with the current task. You can define different launch modes in two ways:
+  
+    - Using the manifest file: When you declare an activity in your manifest file, you can specify how the activity should associate with tasks when it starts.
+    - Using Intent flags: When you call startActivity(), you can include a flag in the Intent that declares how (or whether) the new activity should associate with the current task.
+  - A task is a collection of activities that users interact with when performing a certain job. The activities are arranged in a stack—the back stack)—in the order in which each activity is opened
+  
 #### Fragments
 
 * What is `Fragment`? [MindOrks](https://blog.mindorks.com/android-fragments-and-its-lifecycle)
@@ -43,11 +48,13 @@
 * What is the difference between a `Fragment` and an `Activity`? Explain the relationship between the two.
 
 * Why is it recommended to use only the default constructor to create a `Fragment`? [StackOverflow](https://stackoverflow.com/a/16042750/2809326)
-    - The reason why you should be passing parameters through bundle is because when the system restores a fragment (e.g on config change), it will automatically restore your bundle.
+  - The reason why you should be passing parameters through bundle is because when the system restores a fragment (e.g on config change), it will automatically restore your bundle.
 
-The callbacks like onCreate or onCreateView should read the parameters from the bundle - this way you are guaranteed to restore the state of the fragment correctly to the same state the fragment was initialised with 
+  - The callbacks like onCreate or onCreateView should read the parameters from the bundle - this way you are guaranteed to restore the state of the fragment correctly to the same state the fragment was initialised with 
+  
 * How would you communicate between two Fragments? [Android Official](https://developer.android.com/training/basics/fragments/communicating.html)
     - Often you will want one Fragment to communicate with another, for example to change the content based on a user event. All Fragment-to-Fragment communication is done either through a shared ViewModel or through the associated Activity. Two Fragments should never communicate directly.
+
 * What is retained `Fragment`? [AndroidDesignPatterns](https://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html)
 
 #### Views and ViewGroups
