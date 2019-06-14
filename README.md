@@ -88,13 +88,15 @@
     The most common way to implement a stack is by using a LinkedList, but there is also StackArray (implemented with an array) 
      which does not replace null entries, and there is also a Vector implementation that does 
      replace `null` entries. [Wikipedia](https://en.wikibooks.org/wiki/Data_Structures/Stacks_and_Queues#Performance_Analysis)
-      | Algorithm | Average | Worst Case |
+     
+      	| Algorithm | Average | Worst Case |
         |:---------:|:-------:|:----------:|
         | Space     | Θ(n)    | O(n)       |
         | Search    | Θ(n)    | O(n)       |
         | Insert    | Θ(1)    | O(1)       |
         | Delete    | Θ(1)    | O(1)       |
-	| Top    | Θ(1)    | O(1)       |       
+        | Top       | Θ(1)    | O(1)       |   
+
 * Queue
 
 * PriorityQueue
@@ -106,7 +108,6 @@
 * Hash Table or Hash Map
 
 * Sorting Algorithms [Wikipedia](https://en.wikipedia.org/wiki/Sorting_algorithm?oldformat=true)
-    - Using the most efficient sorting algorithm (and correct data structures that implement it) is vital for any program, because data manipulation can be one of the most significant bottlenecks in case of performance and the main purpose of spending time, determining the best algorithm for the job, is to drastically improve said performance. The efficiency of an algorithm is measured in its' "Big O" ([StackOverflow](https://stackoverflow.com/questions/487258/what-is-a-plain-english-explanation-of-big-o-notation)) score. Really good algorithms perform important actions in O(n log n) or even O(log n) time and some of them can even perform certain actions in O(1) time (HashTable insertion, for example). But there is always a trade-off - if some algorithm is really good at adding a new element to a data structure, it is, most certainly, much worse at data access than some other algorithm. If you are proficient with math, you may notice that "Big O" notation has many similarities with "limits", and you would be right - it measures best, worst and average performances of an algorithm in question, by looking at its' function limit. It should be noted that, when we are speaking about O(1) - constant time - we are not saying that this algorithm performs an action in one operation, rather that it can perform this action with the same number of operations (roughly), regrardless of the amount of elements it has to take into account. Thankfully, a lot of "Big O" scores have been already calculated, so you don't have to guess, which algorithm or data structure will perform better in your project. ["Big O" cheat sheet](http://bigocheatsheet.com/)
     - Bubble sort [Wikipedia](https://en.wikipedia.org/wiki/Bubble_sort?oldformat=true) 
         - Bubble sort is one of the simplest sorting algorithms. It just compares neighbouring elements and if the one that precedes the other is smaller - it changes their places. So over one iteration over the data list, it is guaranteed that **at least** one element will be in its' correct place (the biggest/smallest one - depending on the direction of sorting). This is not a very efficient algorithm, as highly unordered arrays will require a lot of reordering (upto O(n^2)), but one of the advantages of this algorithm is its' space complexity - only two elements are compared at once and there is no need to allocate more memory, than those two will occupy. 
             <table>
@@ -241,69 +242,23 @@
     implementation for each of these methods. Interfaces are implemented.
 
 * **What is the difference between iterator and enumeration in java?**
+    - Iterators differ from enumerations in two ways:
+        - Iterators allow the caller to remove elements from the underlying collection during the iteration with well-defined semantics.
+        - Method names have been improved.
+
 
 * **Do you agree we use composition over inheritance?** [Composition vs Inheritance](https://www.journaldev.com/12086/composition-vs-inheritance)
+    - Disadvantages of Inheritance:
+        - You can't change the implementation inherited from super classes at runtime (obviously because inheritance is defined at compile time).
+        - Inheritance exposes a subclass to details of its parent class implementation, that's why it's often said that inheritance breaks encapsulation (in a sense that you really need to focus on interfaces only not implementation, so reusing by sub classing is not always preferred).
+        - The tight coupling provided by inheritance makes the implementation of a subclass very bound up with the implementation of a super class that any change in the parent implementation will force the sub class to change.
+        - Excessive reusing by sub-classing can make the inheritance stack very deep and very confusing too.
+
+    - On the other hand Object composition is defined at runtime through objects acquiring references to other objects. In such a case these objects will never be able to reach each-other's protected data (no encapsulation break) and will be forced to respect each other's interface. And in this case also, implementation dependencies will be a lot less than in case of inheritance.
 
 * **Difference between method overloading and overriding.**
-        <p align="center">
-        <img alt="Overloading and Overriding" src="https://github.com/codeshef/android-interview-questions/blob/master/assets/overloading-vs-overriding.png">
-        </p>
-    - Overloading happens at compile-time while Overriding happens at runtime: The binding of overloaded method call to its definition happens at compile-time however binding of overridden method call to its definition happens at runtime.
-    More info on static vs. dynamic binding: [StackOverflow](https://stackoverflow.com/questions/19017258/static-vs-dynamic-binding-in-java).
-    - Static methods can be overloaded which means a class can have more than one static method of same name. Static methods cannot be overridden, even if you declare a same static method in child class it has nothing to do with the same method of parent class as overridden static methods are chosen by the reference class and not by the class of the object.
+    - The most basic difference is that overloading is being done in the same class while for overriding base and child classes are required. Overriding is all about giving a specific implementation to the inherited method of parent class.
 
-        So, for example:
-        ```java
-        public class Animal {
-            public static void testClassMethod() {
-                System.out.println("The static method in Animal");
-            }
-
-            public void testInstanceMethod() {
-                System.out.println("The instance method in Animal");
-            }
-        }
-
-        public class Cat extends Animal {
-            public static void testClassMethod() {
-                System.out.println("The static method in Cat");
-            }
-
-            public void testInstanceMethod() {
-                System.out.println("The instance method in Cat");
-            }
-
-            public static void main(String[] args) {
-                Cat myCat = new Cat();
-                myCat.testClassMethod();
-                Animal myAnimal = myCat;
-                myAnimal.testClassMethod();
-                myAnimal.testInstanceMethod();
-            }
-        }
-        ```
-        Will output:
-        ```java
-        The static method in Cat    // testClassMethod() is called from "Cat" reference
-
-        The static method in Animal // testClassMethod() is called from "Animal" reference,
-                                    // ignoring actual object inside it (Cat)
-
-        The instance method in Cat  // testInstanceMethod() is called from "Animal" reference,
-                                    // but from "Cat" object underneath
-        ```
-
-        The most basic difference is that overloading is being done in the same class while for overriding base and child classes are required. Overriding is all about giving a specific implementation to the inherited method of parent class.
-
-        Static binding is being used for overloaded methods and dynamic binding is being used for overridden/overriding methods.
-        Performance: Overloading gives better performance compared to overriding. The reason is that the binding of overridden methods is being done at runtime.
-
-        Private and final methods can be overloaded but they cannot be overridden. It means a class can have more than one private/final methods of same name but a child class cannot override the private/final methods of their base class.
-
-        Return type of method does not matter in case of method overloading, it can be same or different. However in case of method overriding the overriding method can have more specific return type (meaning if, for example, base method returns an instance of Number class, all overriding methods can return any class that is extended from Number, but not a class that is higher in the hierarchy, like, for example, Object is in this particular case).
-
-        Argument list should be different while doing method overloading. Argument list should be same in method Overriding.
-It is also a good practice to annotate overridden methods with `@Override` to make the compiler be able to notify you if child is, indeed, overriding parent's class method during compile-time.
 
 * **What are the access modifiers you know? What does each one do?** <br>
    - There are four access modifiers in Java language (from strictest to the most lenient):
@@ -521,7 +476,7 @@ It is also a good practice to annotate overridden methods with `@Override` to ma
 #### Concurrency
 
 * **What does the keyword `synchronized` mean?** [Link](https://stackoverflow.com/a/1085745/2621950)
-
+- When you have two threads that are reading and writing to the same 'resource', say a variable named foo, you need to ensure that these threads access the variable in an atomic way. Without the synchronized keyword, your thread 1 may not see the change thread 2 made to foo, or worse, it may only be half changed. This would not be what you logically expect.
 * **What is a `ThreadPoolExecutor`?** [MindOrks](https://blog.mindorks.com/threadpoolexecutor-in-android-8e9d22330ee3)
 
 * **What is `volatile` modifier?** [Jenkov](http://tutorials.jenkov.com/java-concurrency/volatile.html)
@@ -738,6 +693,11 @@ It is also a good practice to annotate overridden methods with `@Override` to ma
 #### Base
 
 * Tell all the Android application components. [Android Official](https://developer.android.com/guide/components/fundamentals.html#Components)
+    - There are four different types of app components:
+        - Activities
+        - Services
+        - Broadcast receivers
+        - Content providers
 
 * What is the structure of an Android Application?
 
