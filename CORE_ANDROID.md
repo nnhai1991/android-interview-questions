@@ -53,21 +53,37 @@ The callbacks like onCreate or onCreateView should read the parameters from the 
 #### Views and ViewGroups
 
 * What is `View` in Android? [MindOrks](https://blog.mindorks.com/android-user-interface-view-components)
-
+    - View is a basic building block of UI (User Interface) in android. A view is a small rectangular box which responds to user inputs
+    
 * Difference between `View.GONE` and `View.INVISIBLE`? [StackOverflow](https://stackoverflow.com/questions/11556607/android-difference-between-invisible-and-gone)
+    - View.INVISIBLE: This view is invisible, but it still takes up space for layout purposes.
+    - View.GONE: This view is invisible, and it doesn't take any space for layout purposes.
 
 * Can you create custom views? How? [MindOrks](https://blog.mindorks.com/create-your-own-custom-view)
 
-* What are ViewGroups and how they are different from the Views?
+    - Extend an existing View class or subclass with your own class.
+    - Override some of the methods from the superclass. The superclass methods to override start with 'on', for example, onDraw(), onMeasure(), and onKeyDown(). This is similar to the on... events in Activity or ListActivity that you override for lifecycle and other functionality hooks.
+    - Use your new extension class. Once completed, your new extension class can be used in place of the view upon which it was based.
 
+* What are ViewGroups and how they are different from the Views?
+    - ViewGroup is a invisible container of other views (child views) and other viewgroups
+    
 * What is a canvas?
 
 * What is a `SurfaceView`?
-
+    - A SurfaceView is a special implementation of View that also creates its own dedicated Surface for the application to directly draw into (outside of the normal view hierarchy, which otherwise must share the single Surface for the window). 
 * Relative Layout vs Linear Layout. [MindOrks](https://blog.mindorks.com/android-layout-relative-linear-frame)
+    - LinearLayout means you can align views one by one (vertically/ horizontally).
 
+    - RelativeLayout means based on relation of views from its parents and other views.
+
+    - ConstraintLayout is similar to a RelativeLayout in that it uses relations to position and size widgets, but has additional flexibility and is easier to use in the Layout Editor.
+
+    - WebView to load html, static or dynamic pages.
+
+    - FrameLayout to load child one above another, like cards inside a frame, we can place one above another or anywhere inside the frame.
 * Tell about Constraint Layout [MindOrks](https://blog.mindorks.com/using-constraint-layout-in-android-531e68019cd)
-
+    - ConstraintLayout allows you to create large and complex layouts with a flat view hierarchy (no nested view groups). It's similar to RelativeLayout in that all views are laid out according to relationships between sibling views and the parent layout, but it's more flexible than RelativeLayout and easier to use with Android Studio's Layout Editor
 * Do you know what is the view tree? How can you optimize its depth?
 
 #### Displaying Lists of Content
