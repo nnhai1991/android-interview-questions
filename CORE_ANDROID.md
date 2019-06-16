@@ -56,6 +56,8 @@
     - Often you will want one Fragment to communicate with another, for example to change the content based on a user event. All Fragment-to-Fragment communication is done either through a shared ViewModel or through the associated Activity. Two Fragments should never communicate directly.
 
 * What is retained `Fragment`? [AndroidDesignPatterns](https://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html)
+    - setRetainInstance(true): The Fragment's state will be retained (and not destroyed!) across configuration changes (e.g. screen rotate). The state will be retained even if the configuration change causes the "parent" Activity to be destroyed. However, the view of the Fragment gets destroyed!
+
 
 #### Views and ViewGroups
 
@@ -199,10 +201,13 @@ There are two types of broadcasts received by receivers and they are:
         - The IntentService runs on a separate worker thread.
 
 * What is a `JobScheduler`? [Vogella](http://www.vogella.com/tutorials/AndroidTaskScheduling/article.html)
+	- This is an API for scheduling various types of jobs against the framework that will be executed in your application's own process.
+
 
 #### Inter-process Communication
 
 * How can two distinct Android apps interact?  [Developer Android](https://developer.android.com/training/basics/intents)
+    - Intents
 
 * Is it possible to run an Android app in multiple processes? How?
 
@@ -221,14 +226,23 @@ There are two types of broadcasts received by receivers and they are:
 * What is ANR? How can the ANR be prevented? [Developer Android](https://developer.android.com/topic/performance/vitals/anr.html)
 
 * What is an `AsyncTask`?  [Developer Android](https://developer.android.com/reference/android/os/AsyncTask)
+    - AsyncTask enables proper and easy use of the UI thread. This class allows you to perform background operations and publish results on the UI thread without having to manipulate threads and/or handlers.
+    - Should be fast work, tied to Activity to update UI.
 
 * What are the problems in asynctask?
 
 * When would you use java thread instead of an asynctask?
+    - Network operations which involve moderate to large amounts of data (either uploading or downloading)
+    - High-CPU tasks which need to be run in the background
+    - Any task where you want to control the CPU usage relative to the GUI thread
 
 * What is a `Loader`? (Depricated) [Developer Android](https://developer.android.com/guide/components/loaders)
 
 * What is the relationship between the life cycle of an `AsyncTask` and an `Activity`? What problems can this result in? How can these problems be avoided?
+    An Asynctask doesn't depend on Activity life-cycle that contains it. Like if we start an AsyncTask inside an Activity and then we rotates the device, the Activity will be destroyed at that point but the AsyncTask will remain same or not die until it completes.
+    Then, when the AsyncTask complete its background work its directly updates Activity ui without creating new instance of activity or without affecting activity lifecycle.
+    Theres also the potential for this to result in a memory leak since the AsyncTask maintains a reference to the Activty, which prevents the Activity from being garbage collected as long as the AsyncTask remains alive.
+For these reasons, using AsyncTasks for long-running background tasks is generally a bad idea . Rather, for long-running background tasks, a different mechanism like service or intent service should be used.
 
 * Explain `Looper`, `Handler` and `HandlerThread`. [MindOrks](https://blog.mindorks.com/android-core-looper-handler-and-handlerthread-bd54d69fe91a) and [MindOrks Video](https://www.youtube.com/watch?v=rfLMwbOKLRk&list=PL6nth5sRD25hVezlyqlBO9dafKMc5fAU2)
 
@@ -249,8 +263,14 @@ There are two types of broadcasts received by receivers and they are:
 * What is ORM? How does it work?
 
 * How would you preserve `Activity` state during a screen rotation? [StackOverflow](https://stackoverflow.com/questions/3915952/how-to-save-state-during-orientation-change-in-android-if-the-state-is-made-of-m)
+    - On newer versions of Android and with the compatibility library, retained fragments are usually the best way to handle keeping expensive-to-recreate data alive across activity destruction/creation. And as Dianne pointed out, retaining nonconfiguration data was for optimizing things like thumbnail generation that are nice to save for performance reasons but not critical to your activity functioning if they need to be redone - it's not a substitute for properly saving and restoring activity state.
 
 * What are different ways to store data in your Android app? [Developer Android](https://developer.android.com/guide/topics/data/data-storage)
+Android provides several options for you to save your app data. The solution you choose depends on your specific needs, such as how much space your data requires, what kind of data you need to store, and whether the data should be private to your app or accessible to other apps and the user.
+    - Internal file storage: Store app-private files on the device file system.
+    - External file storage: Store files on the shared external file system. This is usually for shared user files, such as photos.
+    - Shared preferences: Store private primitive data in key-value pairs.
+    - Databases: Store structured data in a private database.
 
 #### Look and Feel
 
@@ -266,12 +286,6 @@ There are two types of broadcasts received by receivers and they are:
 
 * How does the OutOfMemory happens?
    - Thrown when the Java Virtual Machine cannot allocate an object because it is out of memory, and no more memory could be made available by the garbage collector
-
-#### Memory Optimizations
-
-* What is the `onTrimMemory()` method? [Developer Android](https://developer.android.com/topic/performance/memory)
-
-* How does the OutOfMemory happens? [Geeksforgeeks](https://www.geeksforgeeks.org/understanding-outofmemoryerror-exception-java/)
 
 * How do you find memory leaks in Android applications? [MindOrks](https://mindorks.com/blog/detecting-and-fixing-memory-leaks-in-android)
 
