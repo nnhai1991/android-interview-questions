@@ -93,7 +93,7 @@
 * Tell about Constraint Layout [MindOrks](https://blog.mindorks.com/using-constraint-layout-in-android-531e68019cd)
     - ConstraintLayout allows you to create large and complex layouts with a flat view hierarchy (no nested view groups). It's similar to RelativeLayout in that all views are laid out according to relationships between sibling views and the parent layout, but it's more flexible than RelativeLayout and easier to use with Android Studio's Layout Editor
 * Do you know what is the view tree? How can you optimize its depth?
-
+    - Use Hierarchy Viewer and Lint to examine and optimize your layout.
 #### Displaying Lists of Content
 
 * What is the difference between `ListView` and `RecyclerView`?
@@ -121,14 +121,23 @@ RecyclerView was created as a ListView improvement, so yes, you can create an at
 * What is `Toast` in Android?
     - A toast provides simple feedback about an operation in a small popup. It only fills the amount of space required for the message and the current activity remains visible and interactive. Toasts automatically disappear after a timeout.
 * What the difference between `Dialog` and `Dialog Fragment`?
+    - A DialogFragment is a fragment that displays a dialog window, floating on top of its activity's window. This fragment contains a Dialog object, which it displays as appropriate based on the fragment's state. Control of the dialog (deciding when to show, hide, dismiss it) should be done through the API here, not with direct calls on the dialog.
+    - Using DialogFragment to manage the dialog ensures that it correctly handles lifecycle events such as when the user presses the Back button or rotates the screen. The DialogFragment class also allows you to reuse the dialog's UI as an embeddable component in a larger UI, just like a traditional Fragment (such as when you want the dialog UI to appear differently on large and small screens).
+
 
 #### Intents and Broadcasting
 
 * What is `Intent`? [StackOverflow](https://stackoverflow.com/questions/6578051/what-is-an-intent-in-android)
+    - An Intent is a messaging object you can use to request an action from another app component. Although intents facilitate communication between components in several ways, there are three fundamental use cases:
+        - Starting an activity
+        - Starting a service
+        - Delivering a broadcast
 
 * What is an Implicit `Intent`?
+    - Explicit intents specify which application will satisfy the intent, by supplying either the target app's package name or a fully-qualified component class name. You'll typically use an explicit intent to start a component in your own app, because you know the class name of the activity or service you want to start. For example, you might start a new activity within your app in response to a user action, or start a service to download a file in the background.
 
 * What is an Explicit `Intent`?
+    - Implicit intents do not name a specific component, but instead declare a general action to perform, which allows a component from another app to handle it. For example, if you want to show the user a location on a map, you can use an implicit intent to request that another capable app show a specified location on a map.
 
 * What is a `BroadcastReceiver`? [StackOverflow](https://stackoverflow.com/questions/5296987/what-is-broadcastreceiver-and-when-we-use-it)
     - A broadcast receiver is a component that responds to system-wide broadcast announcements. Many broadcasts originate from the system—for example, a broadcast announcing that the screen has turned off, the battery is low, or a picture was captured. Applications can also initiate broadcasts—for example, to let other applications know that some data has been downloaded to the device and is available for them to use. Although broadcast receivers don't display a user interface, they may create a status bar notification to alert the user when a broadcast event occurs. More commonly, though, a broadcast receiver is just a "gateway" to other components and is intended to do a very minimal amount of work. For instance, it might initiate a service to perform some work based on the event.
@@ -137,20 +146,57 @@ RecyclerView was created as a ListView improvement, so yes, you can create an at
 * What is a `LocalBroadcastManager`? [Developer Android](https://developer.android.com/reference/android/support/v4/content/LocalBroadcastManager.html)
 
 * What is the function of an `IntentFilter`?
+    - An intent filter is an expression in an app's manifest file that specifies the type of intents that the component would like to receive. For instance, by declaring an intent filter for an activity, you make it possible for other apps to directly start your activity with a certain kind of intent. Likewise, if you do not declare any intent filters for an activity, then it can be started only with an explicit intent.
 
 * What is a Sticky `Intent`? [AndroidInterview](http://www.androidinterview.com/what-is-a-sticky-intent/)
+    - Sticky Intent is also a type of Intent which allows a communication between function and a service sendStickyBroadcast() performs a sendBroadcast(Inent) know as sticky,the Intent your are sending stays around after the broadcast is complete, so that others can quickly retrieve that data through the return value of registerReceiver(BroadcastReceiver, IntentFilter). In all other ways, this behaves the same as sendBroadcast(Intent).
+    - One example of a sticky broadcast sent via the operating system is ACTION_BATTARY_CHANGED. When you call registerReceiver() for that action — even with a null BroadcastReceiver — you get the Intent that was last Broadcast fot that action. Hence, you can use this to find the state of the battery without necessarily registering for all future state change in the battery.
 
 * Describe how broadcasts and intents work to be able to pass messages around your app?
 
 * What is a `PendingIntent`?
+    - A PendingIntent is a token that you give to a foreign application (e.g. NotificationManager, AlarmManager, Home Screen AppWidgetManager, or other 3rd party applications), which allows the foreign application to use your application's permissions to execute a predefined piece of code.
+    - If you give the foreign application an Intent, it will execute your Intent with its own permissions. But if you give the foreign application a PendingIntent, that application will execute your Intent using your application's permission.
 
 * What are the different types of Broadcasts?
+There are two types of broadcasts received by receivers and they are:
+    - Normal Broadcasts:
+        - These are asynchronous broadcasts.
+        - Receivers of this type of broadcasts may run in any order, sometimes altogether.
+        - This is efficient.
+        - Receivers cannot use the result.
+        - They cannot abort the included APIs.
+        - These broadcasts are sent with Context.sendBroadcast
+    - Ordered Broadcasts
+        - These are synchronous broadcasts.
+        - One broadcast is delivered to one receiver at a time.
+        - Receivers can use the result. In fact as each receiver executes, result is passed to next receiver.
+        - Receiver can abort the broadcast and hence no broadcast is received by other receivers.
+        - The order of receivers is managed and controlled by the attribute android:priority in corresponding intent-filter.
+        - If receivers will have same priority then they may run in any order.
 
 #### Services
 
 * What is `Serivce`? [Developer Android](https://developer.android.com/guide/components/services)
+    - A Service is an application component that can perform long-running operations in the background, and it doesn't provide a user interface. Another application component can start a service, and it continues to run in the background even if the user switches to another application. Additionally, a component can bind to a service to interact with it and even perform interprocess communication (IPC). For example, a service can handle network transactions, play music, perform file I/O, or interact with a content provider, all from the background.
+    - Foreground
+    A foreground service performs some operation that is noticeable to the user. For example, an audio app would use a foreground service to play an audio track. Foreground services must display a Notification. Foreground services continue running even when the user isn't interacting with the app.
+    - Background
+    A background service performs an operation that isn't directly noticed by the user. For example, if an app used a service to compact its storage, that would usually be a background service.
+    - Bound
+    A service is bound when an application component binds to it by calling bindService(). A bound service offers a client-server interface that allows components to interact with the service, send requests, receive results, and even do so across processes with interprocess communication (IPC). A bound service runs only as long as another application component is bound to it. Multiple components can bind to the service at once, but when all of them unbind, the service is destroyed.
 
 * `Service` vs `IntentService`. [StackOverflow](https://stackoverflow.com/a/15772151/5153275)
+    - When to use?
+        - The Service can be used in tasks with no UI, but shouldn't be too long. If you need to perform long tasks, you must use threads within Service.
+        - The IntentService can be used in long tasks usually with no communication to Main Thread. If communication is required, can use Main Thread handler or broadcast intents. Another case of use is when callbacks are needed (Intent triggered tasks).
+
+    - How to trigger?
+        - The Service is triggered by calling method startService().
+        - The IntentService is triggered using an Intent, it spawns a new worker thread and the method onHandleIntent() is called on this thread.
+    - Runs On
+        - The Service runs in background but it runs on the Main Thread of the application.
+        - The IntentService runs on a separate worker thread.
 
 * What is a `JobScheduler`? [Vogella](http://www.vogella.com/tutorials/AndroidTaskScheduling/article.html)
 
